@@ -1,0 +1,992 @@
+<!doctype html>
+<html data-kit-panel="client" lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vitrina — web pro vaši firmu, online do týdne</title>
+<meta name="description" content="Navrhnu a spustím landing page pro malou firmu v Praze. Od 5 900 Kč, návrh na kliknutí za 2–3 dny.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&family=Golos+Text:wght@400;500;600&family=Oswald:wght@500;700&family=Lora:ital,wght@0,500;1,500&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kit/kit.css">
+<style>
+:root {
+  --color-paper: #FFFFFF;
+  --color-wall: #E9EDEA;
+  --color-ink: #0F2620;
+  --color-ink-soft: #4A5C55;
+  --color-line: #D3DBD6;
+  --color-signal: #FFD43B;
+  --color-signal-ink: #0F2620;
+  --color-on-deep: #EEF3EF;
+  --color-on-deep-soft: #A5B8B0;
+  --color-line-deep: #2A4139;
+  --color-whatsapp: #1F8F4E;
+
+  --font-display: "Geologica", "Golos Text", system-ui, sans-serif;
+  --font-sans: "Golos Text", system-ui, sans-serif;
+
+  --text-display: clamp(2.6rem, 6.6vw, 7.25rem);
+  --text-display--line-height: .95;
+  --text-display--letter-spacing: -.04em;
+  --text-display--font-weight: 650;
+  --text-h2: clamp(2rem, 4.4vw, 4.5rem);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -.035em;
+  --text-h2--font-weight: 650;
+  --text-h3: clamp(1.2rem, 1.6vw, 1.6rem);
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -.015em;
+  --text-h3--font-weight: 600;
+  --text-price: clamp(2.25rem, 3.6vw, 3.5rem);
+  --text-body-lg: clamp(1.125rem, 1.35vw, 1.375rem);
+  --text-body-lg--line-height: 1.45;
+  --text-body: clamp(1rem, 1.05vw, 1.125rem);
+  --text-body--line-height: 1.55;
+  --text-ui: 1rem;
+  --text-ui--font-weight: 600;
+  --text-fine: .875rem;
+
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --container-page: 88rem;
+  --container-content: 38rem;
+  --header-h: 4.5rem;
+  --space-section: clamp(4.5rem, 10vw, 9rem);
+  --space-block: clamp(2rem, 4vw, 3.5rem);
+  --space-sm: .75rem;
+  --space-md: 1.25rem;
+  --radius-btn: .5rem;
+  --radius-shot: .375rem;
+  --radius-frame: .75rem;
+  --radius-phone: 1.6rem;
+  --shadow-shot: 0 1.5rem 3rem -1.5rem rgb(15 38 32 / .35);
+  --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+}
+
+body { background: var(--color-paper); color: var(--color-ink); }
+::selection { background: var(--color-signal); color: var(--color-signal-ink); }
+a { text-decoration-thickness: 1px; text-underline-offset: .2em; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+  min-height: 3.25rem; padding: 0 1.5rem; border-radius: var(--radius-btn);
+  font-family: var(--font-sans); font-size: var(--text-ui); font-weight: var(--text-ui--font-weight);
+  text-decoration: none; border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.btn--primary { background: var(--color-signal); color: var(--color-signal-ink); }
+.btn--primary:hover { background: var(--color-ink); color: var(--color-signal); }
+.btn--ghost { border-color: var(--color-line); color: var(--color-ink); background: transparent; }
+.btn--ghost:hover { border-color: var(--color-ink); }
+.btn svg { width: 1.2rem; height: 1.2rem; flex: none; }
+.ico-wa { color: var(--color-whatsapp); }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 40; height: var(--header-h);
+  background: var(--color-paper); transition: box-shadow .3s;
+}
+.site-header.is-scrolled { box-shadow: 0 1px 0 var(--color-line); }
+.site-header .k-container { height: 100%; display: flex; align-items: center; gap: 2rem; }
+.wordmark {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; letter-spacing: -.04em;
+  text-decoration: none; margin-right: auto;
+}
+.nav { display: flex; gap: 1.75rem; }
+.nav a { text-decoration: none; font-size: var(--text-ui); font-weight: 500; color: var(--color-ink-soft); }
+.nav a:hover { color: var(--color-ink); }
+.lang { display: flex; gap: .125rem; }
+.lang button {
+  background: none; border: 0; padding: .5rem .45rem; min-width: 2.5rem; min-height: 2.75rem; cursor: pointer;
+  font-size: var(--text-fine); font-weight: 600; color: var(--color-ink-soft); border-radius: var(--radius-btn);
+}
+.lang button[aria-pressed="true"] { color: var(--color-ink); background: var(--color-wall); }
+.menu-btn {
+  display: none; width: 2.75rem; height: 2.75rem; border: 0; background: none; cursor: pointer; padding: 0;
+  align-items: center; justify-content: center;
+}
+.menu-btn span, .menu-btn span::before { display: block; width: 1.4rem; height: 2px; background: var(--color-ink); position: relative; }
+.menu-btn span::before { content: ""; position: absolute; top: .45rem; width: 1rem; }
+.menu-btn span { transform: translateY(-.22rem); }
+@media (max-width: 63.99rem) {
+  .nav, .site-header .btn { display: none; }
+  .menu-btn { display: inline-flex; }
+  .site-header .k-container { gap: .5rem; }
+}
+
+/* ---------- hero ---------- */
+.hero { padding-top: clamp(1.5rem, 5vw, 4.5rem); overflow: hidden; }
+.hero h1 { max-width: 14ch; }
+.hero__row {
+  display: grid; gap: var(--space-block); margin-top: clamp(1.5rem, 3.5vw, 3.25rem);
+  grid-template-columns: minmax(0, 1fr);
+}
+.hero__lead { color: var(--color-ink-soft); max-width: 34rem; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: 1.75rem; }
+.hero__assure { margin-top: 1.1rem; color: var(--color-ink-soft); display: flex; gap: .5rem; align-items: center; }
+.hero__assure::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--color-whatsapp); flex: none; }
+.facts { list-style: none; padding: 0; margin: 0; }
+.facts__price { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; padding-bottom: 1rem; }
+.facts__price b {
+  font-family: var(--font-display); font-size: var(--text-price); font-weight: 650; letter-spacing: -.035em; line-height: 1;
+}
+.facts__price small { font-size: var(--text-fine); color: var(--color-ink-soft); }
+.facts li:not(.facts__price) {
+  border-top: 1px solid var(--color-line); padding: .85rem 0; display: flex; justify-content: space-between; gap: 1rem;
+}
+.facts li span:last-child { font-weight: 600; text-align: right; }
+.facts li span:first-child { color: var(--color-ink-soft); }
+
+@media (min-width: 64rem) {
+  .hero__row { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; column-gap: clamp(3rem, 8vw, 9rem); }
+  .facts { padding-bottom: .25rem; }
+}
+@media (max-width: 63.99rem) {
+  .hero__row { gap: 1.5rem; }
+  .hero__lead-wrap { display: contents; }
+  .hero__lead { order: 1; }
+  .facts { order: 2; }
+  .hero__cta { order: 3; }
+  .hero__actions { margin-top: 0; }
+  .hero__actions .btn { flex: 1 1 100%; }
+  .facts li:not(.facts__price) { display: none; }
+  .facts__price { padding-bottom: 0; gap: .25rem .75rem; }
+  .facts__price small { flex-basis: 8rem; flex-grow: 1; }
+}
+
+/* work strip */
+.strip { margin-top: clamp(2.5rem, 6vw, 5rem); padding-bottom: clamp(2rem, 4vw, 3rem); --ticker-speed: 70s; --ticker-gap: clamp(1.5rem, 3vw, 3rem); }
+.strip .k-ticker-track { align-items: flex-end; }
+.strip-item { position: relative; display: block; width: clamp(18rem, 34vw, 30rem); padding-right: 2.25rem; padding-bottom: 1.25rem; }
+.strip-item .shot { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: var(--radius-shot); box-shadow: var(--shadow-shot); }
+.phone {
+  position: absolute; right: 0; bottom: 0; width: 26%; aspect-ratio: 390 / 844;
+  border-radius: var(--radius-phone); background: var(--color-ink); padding: .3rem; box-shadow: var(--shadow-shot);
+}
+.phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: calc(var(--radius-phone) - .3rem); }
+
+/* ---------- shared section scaffolding ---------- */
+.section { padding-block: var(--space-section); }
+.section--wall { background: var(--color-wall); }
+.section--deep { background: var(--color-ink); color: var(--color-on-deep); }
+.section-head { display: grid; gap: 1.25rem; margin-bottom: var(--space-block); }
+.section-head p { color: var(--color-ink-soft); max-width: var(--container-content); }
+.section--deep .section-head p { color: var(--color-on-deep-soft); }
+@media (min-width: 64rem) {
+  .section-head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; column-gap: clamp(3rem, 8vw, 9rem); }
+}
+.link { font-weight: 600; text-decoration: underline; text-decoration-color: var(--color-signal); text-decoration-thickness: .2em; text-underline-offset: .15em; }
+.link:hover { text-decoration-color: currentColor; }
+
+/* ---------- work ---------- */
+.work-grid { display: grid; gap: clamp(3rem, 6vw, 5.5rem) clamp(2rem, 4vw, 4rem); }
+@media (min-width: 48rem) { .work-grid { grid-template-columns: 1fr 1fr; } .work-item:nth-child(even) { margin-top: clamp(4rem, 8vw, 8rem); } }
+.work-item .frame { position: relative; padding-right: 3rem; padding-bottom: 2rem; display: block; }
+.work-item .shot { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: var(--radius-shot); box-shadow: var(--shadow-shot); }
+.work-item .phone { width: 24%; }
+.work-item__meta { margin-top: 1.25rem; display: grid; gap: .5rem; }
+.work-item__kind { color: var(--color-ink-soft); font-size: var(--text-fine); }
+.work-item__meta p { color: var(--color-ink-soft); max-width: 30rem; }
+
+/* ---------- signature: one business, three looks ---------- */
+.looks__bar { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.5rem; align-items: center; }
+.looks__bar button {
+  min-height: 2.75rem; padding: 0 1.1rem; border-radius: var(--radius-btn); cursor: pointer;
+  background: transparent; color: var(--color-on-deep); border: 1px solid var(--color-line-deep); font-weight: 600; font-size: var(--text-ui);
+}
+.looks__bar button[aria-pressed="true"] { background: var(--color-signal); color: var(--color-signal-ink); border-color: var(--color-signal); }
+.looks__bar .looks__try { margin-left: auto; border: 0; background: none; padding: 0; color: var(--color-on-deep); cursor: pointer; font-size: var(--text-ui); }
+@media (max-width: 40rem) { .looks__bar .looks__try { flex-basis: 100%; margin-left: 0; justify-content: flex-start; text-align: left; } }
+.looks__caption { margin-top: 1.25rem; color: var(--color-on-deep-soft); max-width: 40rem; }
+.browser { border-radius: var(--radius-frame); overflow: hidden; background: var(--color-paper); }
+.browser__bar { display: flex; align-items: center; gap: .75rem; padding: .6rem 1rem; background: var(--color-wall); color: var(--color-ink-soft); font-size: var(--text-fine); }
+.browser__url { flex: 1; max-width: 22rem; margin-inline: auto; text-align: center; background: var(--color-paper); border-radius: var(--radius-btn); padding: .3rem .75rem; }
+
+/* demo site — palettes are the demo's content, scoped here */
+.demo {
+  --d-bg: #15110E; --d-fg: #F4EEE6; --d-soft: #B9AEA2; --d-btn: #C8321E; --d-btn-fg: #FFFFFF;
+  --d-font: "Oswald", sans-serif; --d-h-size: clamp(2.5rem, 7vw, 6.5rem); --d-h-weight: 700; --d-h-case: uppercase; --d-h-lh: .92; --d-h-track: -.01em;
+  --d-radius: 0; --d-photo-filter: grayscale(1) contrast(1.15) brightness(.75); --d-photo-radius: 0;
+  position: relative; background: var(--d-bg); color: var(--d-fg); min-height: clamp(34rem, 52vw, 42rem);
+  display: grid; grid-template-rows: auto 1fr; overflow: hidden; font-family: var(--font-sans);
+  transition: background-color .5s var(--ease-out-expo), color .5s var(--ease-out-expo);
+}
+.demo[data-look="b"] {
+  --d-bg: #E4EAE3; --d-fg: #22302A; --d-soft: #56665E; --d-btn: #22302A; --d-btn-fg: #F4F6F2;
+  --d-font: "Lora", serif; --d-h-size: clamp(2.1rem, 4.6vw, 4.25rem); --d-h-weight: 500; --d-h-case: none; --d-h-lh: 1.05; --d-h-track: -.02em;
+  --d-radius: 0; --d-photo-filter: none; --d-photo-radius: 0;
+}
+.demo[data-look="c"] {
+  --d-bg: #FF6A4D; --d-fg: #1F1840; --d-soft: #3F2F55; --d-btn: #FFE14D; --d-btn-fg: #1F1840;
+  --d-font: "Nunito", sans-serif; --d-h-size: clamp(2.3rem, 5.4vw, 5rem); --d-h-weight: 900; --d-h-case: none; --d-h-lh: .98; --d-h-track: -.025em;
+  --d-radius: 999px; --d-photo-filter: saturate(1.35) contrast(1.05); --d-photo-radius: 999px 999px 2rem 2rem;
+}
+.demo__nav { position: relative; z-index: 2; display: flex; align-items: center; gap: 1.5rem; padding: 1.1rem clamp(1.1rem, 3vw, 2.25rem); font-size: .875rem; }
+.demo__logo { font-family: var(--d-font); font-weight: var(--d-h-weight); font-size: 1.35rem; text-transform: var(--d-h-case); margin-right: auto; letter-spacing: var(--d-h-track); }
+.demo__nav span { color: var(--d-soft); }
+.demo__btn { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; background: var(--d-btn); color: var(--d-btn-fg); border-radius: var(--d-radius); font-weight: 700; font-size: .9375rem; }
+.demo__nav .demo__btn { min-height: 2.25rem; font-size: .8125rem; padding: 0 .9rem; }
+.demo__body { position: relative; display: grid; padding: clamp(1.1rem, 3vw, 2.25rem); gap: 1.5rem; align-content: end; }
+.demo__text { position: relative; z-index: 2; display: grid; gap: 1rem; align-content: end; }
+.demo h3 { font-family: var(--d-font); font-size: var(--d-h-size); font-weight: var(--d-h-weight); text-transform: var(--d-h-case); line-height: var(--d-h-lh); letter-spacing: var(--d-h-track); text-wrap: balance; max-width: 12ch; }
+.demo__sub { color: var(--d-soft); max-width: 26rem; }
+.demo__price { font-weight: 700; color: var(--d-fg); }
+.demo__acts { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+.demo__ghost { font-weight: 600; text-decoration: underline; text-underline-offset: .2em; }
+.demo__photo { overflow: hidden; border-radius: var(--d-photo-radius); }
+.demo__photo img { width: 100%; height: 100%; object-fit: cover; filter: var(--d-photo-filter); }
+.demo__detail { display: none; }
+/* look A: full-bleed photo under a dark veil */
+.demo[data-look="a"] .demo__photo { position: absolute; inset: 0; z-index: 0; }
+.demo[data-look="a"] .demo__photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, var(--d-bg) 8%, transparent 75%); }
+.demo[data-look="a"] .demo__nav { color: var(--d-fg); }
+/* look B: text left, photo right, detail photo overlapping */
+@media (min-width: 48rem) {
+  .demo[data-look="b"] .demo__body { grid-template-columns: 1fr 1fr; align-content: stretch; padding-top: 0; }
+  .demo[data-look="b"] .demo__photo { height: 100%; min-height: 22rem; }
+  .demo[data-look="b"] .demo__detail { display: block; position: absolute; width: 22%; aspect-ratio: 3 / 4; left: 50%; bottom: 2.25rem; transform: translateX(-60%); z-index: 3; overflow: hidden; }
+  .demo[data-look="b"] .demo__detail img { width: 100%; height: 100%; object-fit: cover; }
+  .demo[data-look="b"] .demo__text { align-content: center; }
+  .demo[data-look="c"] .demo__body { grid-template-columns: 1.1fr .9fr; align-content: center; }
+  .demo[data-look="c"] .demo__photo { order: -1; aspect-ratio: 4 / 4.4; }
+  .demo[data-look="c"] .demo__detail { display: block; position: absolute; width: 16%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; left: 38%; top: 8%; z-index: 3; border: .4rem solid var(--d-btn); }
+  .demo[data-look="c"] .demo__detail img { width: 100%; height: 100%; object-fit: cover; }
+}
+@media (max-width: 47.99rem) {
+  .demo[data-look="b"] .demo__photo, .demo[data-look="c"] .demo__photo { aspect-ratio: 16 / 10; order: -1; }
+  .demo[data-look="c"] .demo__photo { --d-photo-radius: 999px 999px 1.5rem 1.5rem; aspect-ratio: 4 / 3; }
+  .demo__nav span { display: none; }
+}
+::view-transition-old(demo), ::view-transition-new(demo) { animation-duration: .45s; animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+
+/* ---------- process ---------- */
+.steps { list-style: none; padding: 0; display: grid; gap: 0; counter-reset: step; }
+.step { border-top: 1px solid var(--color-line); padding: 1.5rem 0 2rem; display: grid; gap: .6rem; grid-template-columns: 3rem 1fr; }
+.step__n { font-family: var(--font-display); font-size: var(--text-h3); font-weight: 600; line-height: 1.15; }
+.step__when { font-size: var(--text-fine); font-weight: 600; background: var(--color-wall); justify-self: start; padding: .3rem .6rem; border-radius: var(--radius-btn); }
+.step p { color: var(--color-ink-soft); }
+.step > :not(.step__n) { grid-column: 2; }
+.step__n { grid-row: span 3; }
+.step--optional .step__n, .step--optional h3 { color: var(--color-ink-soft); }
+@media (min-width: 64rem) {
+  .steps { grid-template-columns: repeat(5, 1fr); column-gap: 2rem; }
+  .step { grid-template-columns: 1fr; align-content: start; }
+  .step > :not(.step__n) { grid-column: 1; }
+  .step__n { grid-row: auto; font-size: var(--text-h2); line-height: 1; margin-bottom: 1rem; }
+}
+
+/* ---------- pricing ---------- */
+.plans { display: grid; gap: 0; }
+.plan { padding: 2rem 0; border-top: 1px solid var(--color-line); display: grid; gap: 1rem; align-content: start; }
+.plan__name { font-family: var(--font-display); font-size: var(--text-h3); font-weight: 600; }
+.plan__price { font-family: var(--font-display); font-size: var(--text-price); font-weight: 650; letter-spacing: -.035em; line-height: 1; }
+.plan__price small { font-family: var(--font-sans); font-size: var(--text-body); font-weight: 500; letter-spacing: 0; }
+.plan__for { color: var(--color-ink-soft); }
+.plan ul { list-style: none; padding: 0; display: grid; gap: .55rem; margin: .5rem 0 1rem; }
+.plan li { padding-left: 1.4rem; position: relative; }
+.plan li::before { content: ""; position: absolute; left: 0; top: .6em; width: .65rem; height: .35rem; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg) translateY(-50%); }
+.plan .btn { justify-self: start; margin-top: auto; }
+.plan--main { background: var(--color-ink); color: var(--color-on-deep); padding: 2rem clamp(1.25rem, 2.5vw, 2.25rem); border-radius: var(--radius-frame); border: 0; }
+.plan--main .plan__for { color: var(--color-on-deep-soft); }
+.plan__flag { font-size: var(--text-fine); color: var(--color-signal); font-weight: 600; }
+@media (min-width: 64rem) {
+  .plans { grid-template-columns: repeat(3, 1fr); column-gap: clamp(1.5rem, 3vw, 3rem); align-items: stretch; }
+  .plan { grid-template-rows: auto auto auto 1fr auto; }
+}
+.plans-note { margin-top: var(--space-block); display: grid; gap: 1.5rem; padding-top: 2rem; border-top: 1px solid var(--color-line); }
+.plans-note p { color: var(--color-ink-soft); max-width: 44rem; }
+.plans-note strong { color: var(--color-ink); }
+@media (min-width: 64rem) { .plans-note { grid-template-columns: 1fr 1fr; column-gap: clamp(3rem, 8vw, 9rem); } }
+
+/* ---------- included ---------- */
+.lists { display: grid; gap: var(--space-block); }
+@media (min-width: 48rem) { .lists { grid-template-columns: repeat(3, 1fr); column-gap: clamp(1.5rem, 3vw, 3rem); } }
+.lists h3 { padding-bottom: 1rem; border-bottom: 1px solid var(--color-ink); margin-bottom: .25rem; }
+.lists ul { list-style: none; padding: 0; }
+.lists li { padding: .85rem 0; border-bottom: 1px solid var(--color-line); }
+.lists .is-not li { color: var(--color-ink-soft); }
+
+/* ---------- about + lessons (photo + text) ---------- */
+.split { display: grid; gap: var(--space-block); align-items: center; }
+@media (min-width: 64rem) { .split { grid-template-columns: 5fr 7fr; column-gap: clamp(3rem, 8vw, 9rem); } .split--flip { grid-template-columns: 7fr 5fr; } .split--flip .split__media { order: 2; } }
+.split__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-shot); }
+.split--flip .split__media img { aspect-ratio: 4 / 3; }
+.split__text { display: grid; gap: 1.25rem; justify-items: start; }
+.split__text p { color: var(--color-ink-soft); max-width: var(--container-content); }
+.section--deep .split__text p { color: var(--color-on-deep-soft); }
+.langs { display: flex; flex-wrap: wrap; gap: .5rem; }
+.langs span { padding: .45rem .8rem; border-radius: var(--radius-btn); background: var(--color-paper); font-weight: 600; font-size: var(--text-fine); }
+.can { list-style: none; padding: 0; display: grid; gap: 0; width: 100%; max-width: 36rem; }
+.can li { padding: .9rem 0; border-top: 1px solid var(--color-line-deep); color: var(--color-on-deep); }
+.section--deep .btn--ghost { color: var(--color-on-deep); border-color: var(--color-line-deep); }
+
+/* ---------- faq ---------- */
+.faq { display: grid; gap: var(--space-block); }
+@media (min-width: 64rem) { .faq { grid-template-columns: 5fr 7fr; column-gap: clamp(3rem, 8vw, 9rem); } }
+.faq details { border-top: 1px solid var(--color-line); }
+.faq details:last-child { border-bottom: 1px solid var(--color-line); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; font-weight: 600; font-size: var(--text-body-lg); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-family: var(--font-display); font-size: 1.5rem; line-height: 1; transition: transform .25s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding-bottom: 1.5rem; color: var(--color-ink-soft); max-width: var(--container-content); }
+
+/* ---------- request ---------- */
+.request { display: grid; gap: var(--space-block); }
+@media (max-width: 63.99rem) { .request .form { order: 1; } .request > div:first-child { display: contents; } .request .contacts { order: 2; margin-top: 0; } }
+@media (min-width: 64rem) { .request { grid-template-columns: 5fr 7fr; column-gap: clamp(3rem, 8vw, 9rem); align-items: start; } }
+.contacts { list-style: none; padding: 0; margin-top: 2rem; display: grid; }
+.contacts li { border-top: 1px solid var(--color-line); }
+.contacts a { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 0; text-decoration: none; }
+.contacts a span:first-child { color: var(--color-ink-soft); }
+.contacts a span:last-child { font-weight: 600; }
+.contacts a:hover span:last-child { text-decoration: underline; }
+.form { background: var(--color-paper); border-radius: var(--radius-frame); padding: clamp(1.25rem, 3vw, 2.5rem); display: grid; gap: 1.25rem; }
+.form__progress { font-size: var(--text-fine); color: var(--color-ink-soft); }
+.form [data-step] { display: grid; gap: 1.1rem; }
+.field { display: grid; gap: .4rem; }
+.field label, .field legend { font-weight: 600; font-size: var(--text-fine); }
+.field label small, .field legend small { font-weight: 400; color: var(--color-ink-soft); }
+.field input[type="text"], .field input[type="url"], .field select, .field textarea {
+  width: 100%; min-height: 3.1rem; padding: .7rem .9rem; border: 1px solid var(--color-line); border-radius: var(--radius-btn); background: var(--color-paper); font-size: var(--text-body);
+}
+.field textarea { min-height: 5.5rem; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--color-ink); outline-offset: 0; border-color: var(--color-ink); }
+fieldset.field { border: 0; padding: 0; margin: 0; }
+.choices { display: flex; flex-wrap: wrap; gap: .5rem; }
+.choices label { position: relative; }
+.choices input { position: absolute; opacity: 0; inset: 0; }
+.choices span { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--color-line); border-radius: var(--radius-btn); font-weight: 500; cursor: pointer; }
+.choices input:checked + span { background: var(--color-ink); color: var(--color-on-deep); border-color: var(--color-ink); }
+.choices input:focus-visible + span { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+.consent { display: flex; gap: .75rem; align-items: flex-start; font-size: var(--text-fine); color: var(--color-ink-soft); }
+.consent input { width: 1.25rem; height: 1.25rem; margin-top: .1rem; accent-color: var(--color-ink); flex: none; }
+.form__acts { display: flex; gap: .75rem; flex-wrap: wrap; }
+.form__acts .btn--ghost { order: -1; }
+.success { display: grid; gap: 1rem; }
+.success[hidden] { display: none; }
+.form form { display: grid; gap: 1.25rem; }
+
+/* ---------- footer ---------- */
+.site-footer { background: var(--color-ink); color: var(--color-on-deep); padding-block: clamp(3.5rem, 7vw, 6rem) 2rem; }
+.footer-grid { display: grid; gap: 2.5rem; }
+@media (min-width: 64rem) { .footer-grid { grid-template-columns: 6fr 3fr 3fr; } }
+.site-footer .wordmark { font-size: clamp(3rem, 8vw, 7rem); line-height: .9; display: block; }
+.site-footer p, .site-footer li { color: var(--color-on-deep-soft); }
+.site-footer ul { list-style: none; padding: 0; display: grid; gap: .6rem; }
+.site-footer a { text-decoration: none; color: var(--color-on-deep); }
+.site-footer a:hover { text-decoration: underline; }
+.footer-base { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-line-deep); display: flex; flex-wrap: wrap; gap: .5rem 2rem; font-size: var(--text-fine); color: var(--color-on-deep-soft); }
+
+/* ---------- menu, sticky bar, floating button ---------- */
+.menu { background: var(--color-ink); color: var(--color-on-deep); padding: 1rem var(--gutter) 2rem; display: flex; flex-direction: column; }
+.menu__top { display: flex; justify-content: space-between; align-items: center; height: calc(var(--header-h) - 1rem); }
+.menu__close { width: 2.75rem; height: 2.75rem; border: 0; background: none; color: inherit; font-size: 2rem; cursor: pointer; }
+.menu nav { display: grid; margin-top: 2rem; }
+.menu nav a { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 600; letter-spacing: -.03em; text-decoration: none; padding: .35rem 0; }
+.menu__foot { margin-top: auto; display: grid; gap: .75rem; padding-top: 2rem; }
+.menu .btn--ghost { color: var(--color-on-deep); border-color: var(--color-line-deep); }
+.sticky-cta { background: var(--color-paper); box-shadow: 0 -1px 0 var(--color-line); padding: .6rem var(--gutter) calc(.6rem + env(safe-area-inset-bottom)); display: flex; gap: .5rem; }
+.sticky-cta .btn--primary { flex: 1; }
+.sticky-cta .btn--ghost { padding: 0; width: 3.25rem; }
+.fab {
+  position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 45; display: none; align-items: center; gap: .6rem;
+  padding: .5rem 1.1rem .5rem .5rem; border-radius: var(--radius-phone); background: var(--color-paper); color: var(--color-ink);
+  box-shadow: var(--shadow-shot), 0 0 0 1px var(--color-line); text-decoration: none; font-weight: 600; font-size: var(--text-fine);
+}
+.fab i { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--color-whatsapp); color: var(--color-paper); }
+.fab svg { width: 1.3rem; height: 1.3rem; }
+.try-fab {
+  position: fixed; left: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom)); z-index: 44; transition: bottom .3s; padding: .55rem 1rem; border: 0; cursor: pointer;
+  border-radius: var(--radius-phone); background: var(--color-paper); color: var(--color-ink); font: inherit; font-weight: 600; font-size: var(--text-fine);
+  box-shadow: var(--shadow-shot), 0 0 0 1px var(--color-line);
+}
+body:has([data-sticky-cta].is-visible) .try-fab { bottom: calc(5rem + env(safe-area-inset-bottom)); } /* clear the mobile sticky bar */
+.try-fab__on, .try-fab[data-edits] .try-fab__off { display: none; }
+.try-fab[data-edits] .try-fab__on { display: inline; }
+@media (min-width: 64rem) { .try-fab, body:has([data-sticky-cta].is-visible) .try-fab { left: 1.5rem; bottom: 1.5rem; } }
+.fab { opacity: 0; pointer-events: none; transition: opacity .3s; }
+.fab.is-visible { opacity: 1; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .fab { transition: none; } }
+@media (max-width: 63.99rem) { .site-footer { padding-bottom: calc(2rem + 4.5rem + env(safe-area-inset-bottom)); } }
+@media (min-width: 64rem) { .fab { display: inline-flex; } }
+</style>
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Vitrina — web pro vaši firmu, online do týdne">
+  <meta property="og:description" content="Navrhnu a spustím landing page pro malou firmu v Praze. Od 5 900 Kč, návrh na kliknutí za 2–3 dny.">
+  <meta property="og:image" content="og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.3a.5.5 0 0 0 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.7-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3Z"/></symbol></svg>
+<a class="k-skip btn btn--primary" href="#main">Přeskočit na obsah</a>
+
+<header class="site-header" id="top">
+  <div class="k-container">
+    <a class="wordmark" href="#top" aria-label="Vitrina, nahoru">Vitrina</a>
+    <nav class="nav" aria-label="Hlavní">
+      <a href="#work" data-i="nav.work">Práce</a>
+      <a href="#pricing" data-i="nav.pricing">Ceník</a>
+      <a href="#process" data-i="nav.process">Jak to funguje</a>
+      <a href="#faq" data-i="nav.faq">Otázky</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Jazyk / Language">
+      <button type="button" data-lang="cs" aria-pressed="true">CS</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+    </div>
+    <a class="btn btn--primary" href="#request" data-i="cta.request">Poslat poptávku</a>
+    <button class="menu-btn" type="button" data-menu-open="menu" aria-label="Menu"><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+<section id="hero" data-section="hero" class="hero" data-hero>
+  <div class="k-container">
+    <h1 class="t-display" data-reveal="lines" data-reveal-load data-i="hero.h1">Web pro vaši firmu, online do&nbsp;týdne.</h1>
+    <div class="hero__row">
+      <div class="hero__lead-wrap">
+        <p class="hero__lead t-body-lg" data-i="hero.lead">Navrhnu a spustím landing page pro váš byznys — ať děláte cokoli. Kód i doména patří vám.</p>
+        <div class="hero__cta">
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#request" data-i="cta.request">Poslat poptávku</a>
+            <a class="btn btn--ghost" href="https://wa.me/420602194216" target="_blank" rel="noopener">
+              <svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
+              <span data-i="cta.wa">Napsat na WhatsApp</span>
+            </a>
+          </div>
+          <p class="hero__assure t-fine" data-i="hero.assure">Odpovím do 1 pracovního dne — česky, anglicky i rusky.</p>
+        </div>
+      </div>
+      <ul class="facts tabular" role="list">
+        <li class="facts__price"><b data-i="hero.price">od 5 900 Kč</b><small data-i="hero.priceNote">pevná cena za hotový web</small></li>
+        <li><span data-i="hero.f1a">Návrh na kliknutí</span><span data-i="hero.f1b">za 2–3 dny</span></li>
+        <li><span data-i="hero.f2a">Web online</span><span data-i="hero.f2b">zhruba do týdne</span></li>
+        <li><span data-i="hero.f3a">Měsíční poplatek mně</span><span data-i="hero.f3b">žádný</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="strip" data-ticker aria-label="Ukázky práce">
+    <a class="strip-item" href="#work"><img class="shot" src="media/work-brows-desktop.jpg" alt="Koncept webu pro studio obočí" width="1440" height="900"><span class="phone"><img src="media/work-brows-mobile.jpg" alt="" width="780" height="1688"></span></a>
+    <a class="strip-item" href="#work"><img class="shot" src="media/work-delivery-desktop.jpg" alt="Koncept webu pro půjčovnu skútrů pro kurýry" width="1440" height="900"><span class="phone"><img src="media/work-delivery-mobile.jpg" alt="" width="780" height="1688"></span></a>
+    <a class="strip-item" href="#work"><img class="shot" src="media/work-kindergarten-desktop.webp" alt="Koncept webu pro soukromou školku" width="1440" height="900"><span class="phone"><img src="media/work-kindergarten-mobile.webp" alt="" width="780" height="1688"></span></a>
+    <a class="strip-item" href="#work"><img class="shot" src="media/work-sauna-bold-desktop.jpg" alt="Koncept webu pro privátní wellness" width="1440" height="900"><span class="phone"><img src="media/work-sauna-bold-mobile.webp" alt="" width="780" height="1688"></span></a>
+  </div>
+</section>
+<!-- /hero -->
+
+<section id="work" data-section="work" class="section section--wall">
+  <div class="k-container">
+    <div class="section-head">
+      <h2 class="t-h2" data-i="work.h2">Ukázky, které si můžete proklikat.</h2>
+      <p class="t-body-lg" data-i="work.lead">Čtyři koncepty pro typické pražské podniky. Každý je živý web — otevřete ho v telefonu a zkuste rezervaci.</p>
+    </div>
+    <div class="work-grid">
+      <article class="work-item">
+        <a class="frame" href="https://auzil.github.io/ai-design-brows/" target="_blank" rel="noopener"><img class="shot" src="media/work-brows-desktop.jpg" alt="Brow Studio Anna, desktop" width="1440" height="900" loading="lazy"><span class="phone"><img src="media/work-brows-mobile.jpg" alt="" width="780" height="1688" loading="lazy"></span></a>
+        <div class="work-item__meta">
+          <span class="work-item__kind" data-i="work.concept">Koncept</span>
+          <h3 class="t-h3">Brow Studio Anna</h3>
+          <p data-i="work.brows">Studio obočí. Klidný beauty styl, posuvník před a po, cena hned nahoře.</p>
+          <a class="link" href="https://auzil.github.io/ai-design-brows/" target="_blank" rel="noopener" data-i="work.open">Otevřít živé demo</a>
+        </div>
+      </article>
+      <article class="work-item">
+        <a class="frame" href="https://auzil.github.io/ai-delivery-design/" target="_blank" rel="noopener"><img class="shot" src="media/work-delivery-desktop.jpg" alt="PCX Kurýr, desktop" width="1440" height="900" loading="lazy"><span class="phone"><img src="media/work-delivery-mobile.jpg" alt="" width="780" height="1688" loading="lazy"></span></a>
+        <div class="work-item__meta">
+          <span class="work-item__kind" data-i="work.concept">Koncept</span>
+          <h3 class="t-h3">PCX Kurýr</h3>
+          <p data-i="work.delivery">Pronájem skútrů pro kurýry. Tmavý plakát, týdenní cena a kalkulačka.</p>
+          <a class="link" href="https://auzil.github.io/ai-delivery-design/" target="_blank" rel="noopener" data-i="work.open">Otevřít živé demo</a>
+        </div>
+      </article>
+      <article class="work-item">
+        <a class="frame" href="https://auzil.github.io/ai-design-kindergarten-prague/" target="_blank" rel="noopener"><img class="shot" src="media/work-kindergarten-desktop.webp" alt="Little Maple House, desktop" width="1440" height="900" loading="lazy"><span class="phone"><img src="media/work-kindergarten-mobile.webp" alt="" width="780" height="1688" loading="lazy"></span></a>
+        <div class="work-item__meta">
+          <span class="work-item__kind" data-i="work.concept">Koncept</span>
+          <h3 class="t-h3">Little Maple House</h3>
+          <p data-i="work.kinder">Soukromá školka v Praze 6. Dětské kresby a slunce, které putuje po obloze.</p>
+          <a class="link" href="https://auzil.github.io/ai-design-kindergarten-prague/" target="_blank" rel="noopener" data-i="work.open">Otevřít živé demo</a>
+        </div>
+      </article>
+      <article class="work-item">
+        <a class="frame" href="https://auzil.github.io/ai-disign-sauna-bold/" target="_blank" rel="noopener"><img class="shot" src="media/work-sauna-bold-desktop.jpg" alt="Lumen, desktop" width="1440" height="900" loading="lazy"><span class="phone"><img src="media/work-sauna-bold-mobile.webp" alt="" width="780" height="1688" loading="lazy"></span></a>
+        <div class="work-item__meta">
+          <span class="work-item__kind" data-i="work.concept">Koncept</span>
+          <h3 class="t-h3">Lumen</h3>
+          <p data-i="work.sauna">Privátní wellness, otevřeno 24/7. Teplá noční atmosféra a rezervace slotu.</p>
+          <a class="link" href="https://auzil.github.io/ai-disign-sauna-bold/" target="_blank" rel="noopener" data-i="work.open">Otevřít živé demo</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="looks" data-section="looks" class="section section--deep">
+  <div class="k-container">
+    <div class="section-head">
+      <h2 class="t-h2" data-i="looks.h2">Jedna firma, tři podoby.</h2>
+      <p class="t-body-lg" data-i="looks.lead">Stejný obsah, jiný charakter. Klikněte na směr a podívejte se, jak se kavárna promění.</p>
+    </div>
+    <div class="looks__bar" role="group" aria-label="Směr designu">
+      <button type="button" data-look-btn="a" aria-pressed="true" data-i="looks.a">Tmavý plakát</button>
+      <button type="button" data-look-btn="b" aria-pressed="false" data-i="looks.b">Klidný editorial</button>
+      <button type="button" data-look-btn="c" aria-pressed="false" data-i="looks.c">Hravý</button>
+      <button type="button" class="looks__try link" data-try-edit data-i="looks.try">Vyzkoušet úpravy</button>
+    </div>
+    <div class="browser">
+      <div class="browser__bar"><span class="browser__url">kavarnazrnko.cz</span></div>
+      <div class="demo" data-look="a" aria-live="polite">
+        <div class="demo__nav"><b class="demo__logo">Zrnko</b><span data-i="demo.n1">Menu</span><span data-i="demo.n2">Snídaně</span><span data-i="demo.n3">Kde nás najdete</span><b class="demo__btn" data-i="demo.btn">Rezervovat stůl</b></div>
+        <div class="demo__body">
+          <div class="demo__text">
+            <h3 data-i="demo.h">Káva a croissanty na rohu Letné.</h3>
+            <p class="demo__sub"><span class="demo__price" data-i="demo.price">Snídaně od 145 Kč.</span> <span data-i="demo.sub">Pečeme každé ráno, otevřeno denně od 7:30.</span></p>
+            <div class="demo__acts"><b class="demo__btn" data-i="demo.btn">Rezervovat stůl</b><span class="demo__ghost" data-i="demo.menu">Celé menu</span></div>
+          </div>
+          <div class="demo__photo"><img src="media/demo-cafe-1.webp" alt="Ukázková kavárna, výloha s pultem" width="1600" height="900" loading="lazy"></div>
+          <div class="demo__detail"><img src="media/demo-detail-1.webp" alt="" width="900" height="1200" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+    <p class="looks__caption" data-i="looks.caption">Takhle spolu vybíráme váš vzhled. Dostanete návrh na kliknutí, vyberete směr a poznámky píšete přímo do stránky — u písma, barvy i jednotlivého tlačítka.</p>
+  </div>
+</section>
+
+<section id="process" data-section="process" class="section">
+  <div class="k-container">
+    <div class="section-head">
+      <h2 class="t-h2" data-i="process.h2">Od hovoru k hotovému webu za týden.</h2>
+      <p class="t-body-lg" data-i="process.lead">Žádné týdny mailů s PDF. Vidíte skutečnou stránku od třetího dne.</p>
+    </div>
+    <ol class="steps" role="list">
+      <li class="step"><span class="step__n">1</span><h3 class="t-h3" data-i="p1.h">Krátký hovor</h3><p data-i="p1.p">20 minut: co děláte, pro koho a jeden nebo dva weby, které se vám líbí.</p><span class="step__when" data-i="p1.w">Den 1</span></li>
+      <li class="step"><span class="step__n">2</span><h3 class="t-h3" data-i="p2.h">Návrh na kliknutí</h3><p data-i="p2.p">Skutečná stránka ve vašem telefonu, ne obrázek. S vašimi texty a cenami.</p><span class="step__when" data-i="p2.w">Za 2–3 dny</span></li>
+      <li class="step"><span class="step__n">3</span><h3 class="t-h3" data-i="p3.h">Úpravy přímo na stránce</h3><p data-i="p3.p">Měníte písmo a barvy, k čemukoli napíšete poznámku. Já ji zapracuji.</p><span class="step__when" data-i="p3.w">2–3 kola</span></li>
+      <li class="step"><span class="step__n">4</span><h3 class="t-h3" data-i="p4.h">Spuštění na vaší doméně</h3><p data-i="p4.p">Web běží s SSL, formulář posílá poptávky rovnou vám.</p><span class="step__when" data-i="p4.w">Zhruba do týdne</span></li>
+      <li class="step step--optional"><span class="step__n">5</span><h3 class="t-h3" data-i="p5.h">Když chcete: upravujte sami</h3><p data-i="p5.p">Tři lekce s AI a texty, ceny i fotky si měníte bez programátora.</p><span class="step__when" data-i="p5.w">Business + AI</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="pricing" data-section="pricing" class="section section--wall">
+  <div class="k-container">
+    <div class="section-head">
+      <h2 class="t-h2" data-i="pricing.h2">Pevná cena. Žádné měsíční poplatky mně.</h2>
+      <p class="t-body-lg" data-i="pricing.lead">Vyberte balíček podle toho, kolik toho chcete řešit. Cenu potvrdím po prvním hovoru a už se nemění.</p>
+    </div>
+    <div class="plans tabular">
+      <article class="plan">
+        <h3 class="plan__name">Start</h3>
+        <p class="plan__price" data-i="plan1.price">od 5 900 Kč</p>
+        <p class="plan__for" data-i="plan1.for">Jedna stránka, která prodává. Pro začátek nebo náhradu starého webu.</p>
+        <ul data-i="plan1.list">
+          <li>Landing page v jednom směru designu</li>
+          <li>Vyladění vašich textů</li>
+          <li>Dočasné fotky, než dodáte své</li>
+          <li>Kontaktní nebo rezervační formulář</li>
+          <li>Spuštění na vaší doméně s SSL, základní SEO</li>
+          <li>2 kola úprav</li>
+        </ul>
+        <a class="btn btn--ghost" href="#request" data-prefill="package=start" data-i="plan1.cta">Chci Start</a>
+      </article>
+      <article class="plan plan--main">
+        <span class="plan__flag" data-i="plan2.flag">Doporučuji</span>
+        <h3 class="plan__name">Business</h3>
+        <p class="plan__price" data-i="plan2.price">od 12 900 Kč</p>
+        <p class="plan__for" data-i="plan2.for">Pro firmu, která chce vybírat vzhled a brát rezervace nebo platby online.</p>
+        <ul data-i="plan2.list">
+          <li>Vše ze Startu</li>
+          <li>2–3 směry designu na výběr</li>
+          <li>Dva jazyky</li>
+          <li>Rezervace nebo platby: Reservio, Calendly, Stripe…</li>
+          <li>Analytika návštěv</li>
+          <li>3 kola úprav</li>
+        </ul>
+        <a class="btn btn--primary" href="#request" data-prefill="package=business" data-i="plan2.cta">Chci Business</a>
+      </article>
+      <article class="plan">
+        <h3 class="plan__name">Business + AI</h3>
+        <p class="plan__price" data-i="plan3.price">od 18 900 Kč</p>
+        <p class="plan__for" data-i="plan3.for">Business a k tomu se naučíte web i každodenní práci zvládat s AI.</p>
+        <ul data-i="plan3.list">
+          <li>Vše z Business</li>
+          <li>3 lekce 1:1, online nebo v Praze</li>
+          <li>Úpravy webu sami s Claude Code</li>
+          <li>Základy vibe-codingu</li>
+          <li>AI na běžné úkoly ve vaší firmě</li>
+        </ul>
+        <a class="btn btn--ghost" href="#request" data-prefill="package=ai" data-i="plan3.cta">Chci Business + AI</a>
+      </article>
+    </div>
+    <div class="plans-note">
+      <p data-i="pricing.always"><strong>Vždy v ceně:</strong> všechno je vaše. Kód ve vašem GitHubu, doména a hosting na vaše jméno — nastavíme je spolu. Podporu platíte, jen když ji chcete.</p>
+      <p data-i="pricing.lessons"><strong>Jen lekce AI:</strong> 1:1 online nebo osobně v Praze, i bez webu ode mě. Cenu lekce vám pošlu podle toho, co se chcete naučit. <a class="link" href="#request" data-prefill="package=lessons">Zeptat se na lekce</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="included" data-section="included" class="section">
+  <div class="k-container">
+    <div class="section-head">
+      <h2 class="t-h2" data-i="inc.h2">Co potřebuji od vás a co je v ceně.</h2>
+      <p class="t-body-lg" data-i="inc.lead">Řeknu to rovnou, ať vás nic nepřekvapí.</p>
+    </div>
+    <div class="lists">
+      <div>
+        <h3 class="t-h3" data-i="inc.need">Od vás potřebuji</h3>
+        <ul data-i="inc.needList">
+          <li>Služby, ceny a otevírací dobu</li>
+          <li>Logo, pokud ho máte</li>
+          <li>Vaše fotky — do té doby použiji dočasné</li>
+          <li>Jeden nebo dva weby, které se vám líbí</li>
+          <li>Přístup k doméně, nebo ji koupíme spolu</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="t-h3" data-i="inc.yes">V ceně</h3>
+        <ul data-i="inc.yesList">
+          <li>Návrh a vývoj na míru, žádná šablona</li>
+          <li>Vyladění vašich textů</li>
+          <li>Rychlý web pro mobil, základní SEO</li>
+          <li>Formulář, který poptávku opravdu doručí</li>
+          <li>Spuštění na vaší doméně s SSL</li>
+        </ul>
+      </div>
+      <div class="is-not">
+        <h3 class="t-h3" data-i="inc.no">Není v ceně</h3>
+        <ul data-i="inc.noList">
+          <li>Poplatky za doménu a hosting (hosting často zdarma)</li>
+          <li>Profesionální focení — rád doporučím fotografa</li>
+          <li>Psaní textů nad rámec vyladění</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" data-section="about" class="section section--wall">
+  <div class="k-container split">
+    <figure class="split__media"><img src="media/workspace-1.webp" alt="Pracovní stůl u okna s výhledem na pražské střechy" width="900" height="1200" loading="lazy"></figure>
+    <div class="split__text">
+      <h2 class="t-h2" data-i="about.h2">Ahoj, jsem Viktar.</h2>
+      <p class="t-body-lg" data-i="about.p1">Full-stack a produktový inženýr. Roky stavím webové produkty a systémy s AI agenty. Stejnou kvalitu teď dávám malým firmám: rychlý web pro mobil, čistý kód a formuláře, které doručí.</p>
+      <p data-i="about.p2">Pracuji sám, takže mluvíte přímo s tím, kdo váš web dělá. Bez agentury mezi námi a bez přirážky za ni.</p>
+      <div class="langs" aria-label="Jazyky"><span>Čeština</span><span>English</span><span>Русский</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="lessons" data-section="lessons" class="section section--deep">
+  <div class="k-container split split--flip">
+    <figure class="split__media"><img src="media/lesson-1.webp" alt="Dva lidé u notebooku v kavárně" width="1600" height="900" loading="lazy"></figure>
+    <div class="split__text">
+      <h2 class="t-h2" data-i="les.h2">Naučte se web upravovat sami. S AI.</h2>
+      <p class="t-body-lg" data-i="les.lead">Tři lekce 1:1, online nebo v Praze. Po nich umíte:</p>
+      <ul class="can" role="list" data-i="les.list">
+        <li>Změnit text, cenu nebo fotku na webu sami, s Claude Code</li>
+        <li>Zadat AI úkol a zkontrolovat, co udělala</li>
+        <li>Psát s AI odpovědi zákazníkům, nabídky a příspěvky</li>
+        <li>Poznat, kdy AI věřit a kdy ne</li>
+      </ul>
+      <a class="btn btn--primary" href="#request" data-prefill="package=ai" data-i="les.cta">Chci web i lekce</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq" data-section="faq" class="section">
+  <div class="k-container faq">
+    <div class="section-head" style="display:block">
+      <h2 class="t-h2" data-i="faq.h2">Na co se ptáte nejčastěji.</h2>
+    </div>
+    <div>
+      <details><summary data-i="q1">Kolik stojí doména a hosting?</summary><p data-i="a1">Doménu platíte registrátorovi, obvykle pár set korun ročně. Hosting pro landing page bývá na bezplatném tarifu. Obojí je na vaše jméno, já to jen nastavím.</p></details>
+      <details><summary data-i="q2">Komu patří kód?</summary><p data-i="a2">Vám. Kód je ve vašem GitHubu, doména a hosting na vašem účtu. Kdykoli můžete odejít k jinému vývojáři.</p></details>
+      <details><summary data-i="q3">Co když budu chtít později něco změnit?</summary><p data-i="a3">Drobnosti si můžete změnit sami — balíček Business + AI vás to naučí. Nebo mi napíšete a domluvíme cenu úpravy předem.</p></details>
+      <details><summary data-i="q4">Jak rychle to bude hotové?</summary><p data-i="a4">Návrh na kliknutí máte za 2–3 dny po hovoru. Online je web zhruba do týdne od chvíle, kdy mám texty a fotky.</p></details>
+      <details><summary data-i="q5">Jak se platí?</summary><p data-i="a5">Na fakturu převodem. Podmínky platby vám pošlu spolu s potvrzenou cenou, ještě než začneme.</p></details>
+      <details><summary data-i="q6">V jakém jazyce se domluvíme?</summary><p data-i="a6">Česky, anglicky nebo rusky — jak je vám příjemnější. Web může být ve dvou jazycích (balíček Business).</p></details>
+      <details><summary data-i="q7">Napíšete mi texty?</summary><p data-i="a7">Vaše texty vyladím, zkrátím a seřadím tak, aby prodávaly. Psaní úplně od nuly v ceně není.</p></details>
+      <details><summary data-i="q8">Nemám dobré fotky. Vadí to?</summary><p data-i="a8">Nevadí. Do té doby použiji dočasné ilustrační fotky a pak je vyměníme za vaše. Na focení vám rád doporučím fotografa.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="request" data-section="request" class="section section--wall">
+  <div class="k-container request">
+    <div>
+      <h2 class="t-h2" data-i="req.h2">Pošlete poptávku.</h2>
+      <p class="t-body-lg" style="margin-top:1.25rem;color:var(--color-ink-soft)" data-i="req.lead">Odpovím do 1 pracovního dne. Stačí pár řádků o vaší firmě — nebo mi rovnou napište.</p>
+      <ul class="contacts" role="list">
+        <li><a href="https://wa.me/420602194216" target="_blank" rel="noopener"><span>WhatsApp</span><span data-placeholder>+420 776 214 389</span></a></li>
+        <li><a href="https://t.me/auzil" target="_blank" rel="noopener"><span>Telegram</span><span data-placeholder>@vitrina_studio</span></a></li>
+        <li><a href="mailto:viktar.pryshchepa@gmail.com"><span>E-mail</span><span data-placeholder>ahoj@vitrina.studio</span></a></li>
+      </ul>
+    </div>
+    <div class="form">
+      <form data-steps novalidate>
+        <p class="form__progress" data-progress="Krok {n} ze {total}">Krok 1 ze 2</p>
+        <div data-step>
+          <div class="field"><label for="f-biz" data-i="f.biz">Firma a co děláte</label><input id="f-biz" name="business" type="text" required placeholder="Např. Studio obočí na Vinohradech"></div>
+          <div class="field"><label for="f-link"><span data-i="f.link">Váš web nebo Instagram</span> <small data-i="f.opt">nepovinné</small></label><input id="f-link" name="link" type="text" placeholder="instagram.com/…"></div>
+          <div class="field"><label for="f-like"><span data-i="f.like">Weby, které se vám líbí</span> <small data-i="f.opt">nepovinné</small></label><textarea id="f-like" name="liked"></textarea></div>
+          <div class="field"><label for="f-pkg" data-i="f.pkg">Balíček</label>
+            <select id="f-pkg" name="package">
+              <option value="unsure" data-i="f.pkg0">Ještě nevím</option>
+              <option value="start">Start — od 5 900 Kč</option>
+              <option value="business">Business — od 12 900 Kč</option>
+              <option value="ai">Business + AI — od 18 900 Kč</option>
+              <option value="lessons" data-i="f.pkg4">Jen lekce AI</option>
+            </select>
+          </div>
+          <div class="form__acts"><button class="btn btn--primary" type="button" data-next data-i="f.next">Pokračovat</button></div>
+        </div>
+        <div data-step>
+          <div class="field"><label for="f-name" data-i="f.name">Jméno</label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
+          <fieldset class="field"><legend data-i="f.via">Kde se vám ozvat</legend>
+            <div class="choices">
+              <label><input type="radio" name="via" value="whatsapp" checked><span>WhatsApp</span></label>
+              <label><input type="radio" name="via" value="telegram"><span>Telegram</span></label>
+              <label><input type="radio" name="via" value="email"><span>E-mail</span></label>
+              <label><input type="radio" name="via" value="phone"><span data-i="f.phone">Telefon</span></label>
+            </div>
+          </fieldset>
+          <div class="field"><label for="f-contact" data-i="f.contact">Číslo, uživatelské jméno nebo e-mail</label><input id="f-contact" name="contact" type="text" required></div>
+          <fieldset class="field"><legend data-i="f.lang">Jazyk</legend>
+            <div class="choices">
+              <label><input type="radio" name="lang" value="cs" checked><span>Čeština</span></label>
+              <label><input type="radio" name="lang" value="en"><span>English</span></label>
+              <label><input type="radio" name="lang" value="ru"><span>Русский</span></label>
+            </div>
+          </fieldset>
+          <label class="consent"><input type="checkbox" name="consent" required><span data-i="f.consent">Souhlasím se zpracováním údajů, abyste mi mohli odpovědět. <a href="#privacy">Zásady ochrany údajů</a></span></label>
+          <div class="form__acts"><button class="btn btn--primary" type="submit" data-i="f.send">Odeslat poptávku</button><button class="btn btn--ghost" type="button" data-back data-i="f.back">Zpět</button></div>
+        </div>
+      </form>
+      <div class="success" data-success hidden>
+        <h3 class="t-h3" data-i="f.okH">Díky, poptávka je u mě.</h3>
+        <p data-i="f.okP">Ozvu se do 1 pracovního dne tam, kde jste si vybrali. Mezitím si proklikejte ukázky výše.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer" data-section="footer" id="privacy">
+  <div class="k-container">
+    <div class="footer-grid">
+      <div><a class="wordmark" href="#top">Vitrina</a><p style="margin-top:1rem;max-width:26rem" data-i="foot.p">Landing pages pro malé firmy. Praha a online.</p></div>
+      <ul role="list">
+        <li><a href="#work" data-i="nav.work">Práce</a></li>
+        <li><a href="#pricing" data-i="nav.pricing">Ceník</a></li>
+        <li><a href="#process" data-i="nav.process">Jak to funguje</a></li>
+        <li><a href="#faq" data-i="nav.faq">Otázky</a></li>
+      </ul>
+      <ul role="list">
+        <li><a href="https://wa.me/420602194216">WhatsApp</a></li>
+        <li><a href="https://t.me/vitrina_studio">Telegram</a></li>
+        <li><a href="mailto:ahoj@vitrina.studio">ahoj@vitrina.studio</a></li>
+      </ul>
+    </div>
+    <div class="footer-base"><span>© 2026 Vitrina</span><span data-placeholder>IČO 21894653</span><a href="#privacy" data-i="foot.privacy">Zásady ochrany osobních údajů</a></div>
+  </div>
+</footer>
+
+<div id="menu" class="menu" data-menu hidden>
+  <div class="menu__top"><span class="wordmark">Vitrina</span><button class="menu__close" type="button" data-menu-close aria-label="Zavřít">×</button></div>
+  <nav aria-label="Menu">
+    <a href="#work" data-i="nav.work">Práce</a>
+    <a href="#looks" data-i="nav.looks">Tři podoby</a>
+    <a href="#process" data-i="nav.process">Jak to funguje</a>
+    <a href="#pricing" data-i="nav.pricing">Ceník</a>
+    <a href="#faq" data-i="nav.faq">Otázky</a>
+  </nav>
+  <div class="menu__foot">
+    <a class="btn btn--primary" href="#request" data-i="cta.request">Poslat poptávku</a>
+    <a class="btn btn--ghost" href="https://wa.me/420602194216" data-i="cta.wa">Napsat na WhatsApp</a>
+    <a class="btn btn--ghost" href="https://t.me/vitrina_studio">Telegram</a>
+  </div>
+</div>
+
+<div class="sticky-cta" data-sticky-cta data-mobile-only>
+  <a class="btn btn--primary" href="#request" data-i="cta.request">Poslat poptávku</a>
+  <a class="btn btn--ghost" href="https://wa.me/420602194216" aria-label="WhatsApp"><svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg></a>
+  <a class="btn btn--ghost" href="https://t.me/vitrina_studio" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8s.6-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.6-1.8ZM9.6 15.2l-.4 3.6-1.4-4.7 10.6-6.8-8.8 7.9Z"/></svg></a>
+</div>
+
+<button type="button" class="try-fab" data-try-edit><span class="try-fab__off" data-i="try.fab">Vyzkoušet úpravy webu</span><span class="try-fab__on" data-i="try.on">Úpravy použity · otevřít</span></button>
+<a class="fab" href="https://wa.me/420602194216" target="_blank" rel="noopener"><i><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg></i><span data-i="fab">Napište mi</span></a>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="kit/kit.js"></script>
+<script>
+// header hairline on scroll
+const hdr = document.querySelector(".site-header");
+addEventListener("scroll", () => hdr.classList.toggle("is-scrolled", scrollY > 8), { passive: true });
+
+// ---------- signature: one business, three looks ----------
+const demo = document.querySelector(".demo");
+const lookBtns = document.querySelectorAll("[data-look-btn]");
+const calm = matchMedia("(prefers-reduced-motion: reduce)");
+demo.style.viewTransitionName = "demo";
+lookBtns.forEach((b) => b.addEventListener("click", () => {
+  const look = b.dataset.lookBtn;
+  if (demo.dataset.look === look) return;
+  const apply = () => {
+    demo.dataset.look = look;
+    lookBtns.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  };
+  if (document.startViewTransition && !calm.matches) document.startViewTransition(apply);
+  else apply();
+}));
+const qLook = new URLSearchParams(location.search).get("look");
+if (qLook) document.querySelector(`[data-look-btn="${qLook}"]`)?.click();
+document.querySelectorAll("[data-try-edit]").forEach((b) => b.addEventListener("click", () => window.Kit?.openPanel?.()));
+
+// ---------- language switch (cs default; en/ru dictionaries) ----------
+const I18N = {
+en: {
+  "nav.work": "Work", "nav.pricing": "Pricing", "nav.process": "How it works", "nav.faq": "FAQ", "nav.looks": "Three looks",
+  "cta.request": "Send a request", "cta.wa": "Message on WhatsApp", "fab": "Message me",
+  "hero.h1": "A website for your business, online within a&nbsp;week.",
+  "hero.lead": "I design and launch a landing page for your business, whatever it does. The code and the domain are yours.",
+  "hero.assure": "I reply within 1 working day — in English, Czech or Russian.",
+  "hero.price": "from 5,900 CZK", "hero.priceNote": "fixed price for a finished site",
+  "hero.f1a": "Clickable design", "hero.f1b": "in 2–3 days", "hero.f2a": "Site online", "hero.f2b": "in about a week", "hero.f3a": "Monthly fee to me", "hero.f3b": "none",
+  "work.h2": "Examples you can click through.", "work.lead": "Four concepts for typical Prague businesses. Each one is a live site — open it on your phone and try booking.",
+  "work.concept": "Concept", "work.open": "Open live demo",
+  "work.brows": "Brow studio. Calm beauty style, before/after slider, price right at the top.",
+  "work.delivery": "Scooter rental for couriers. Dark poster style, weekly price and a calculator.",
+  "work.kinder": "Private kindergarten in Prague 6. Children's drawings and a sun that moves across the sky.",
+  "work.sauna": "Private spa, open 24/7. Warm night atmosphere and slot booking.",
+  "looks.h2": "One business, three looks.", "looks.lead": "Same content, different character. Pick a direction and watch the café change.",
+  "looks.a": "Dark poster", "looks.b": "Calm editorial", "looks.c": "Playful", "looks.try": "Try editing", "try.fab": "Try editing this site", "try.on": "Edits applied · open",
+  "looks.caption": "This is how we choose your look together. You get a clickable design, pick a direction and leave notes right on the page — on a font, a color or a single button.",
+  "demo.n1": "Menu", "demo.n2": "Breakfast", "demo.n3": "Find us", "demo.btn": "Book a table", "demo.h": "Coffee and croissants on the corner of Letná.",
+  "demo.price": "Breakfast from 145 CZK.", "demo.sub": "Baked every morning, open daily from 7:30.", "demo.menu": "Full menu",
+  "process.h2": "From a call to a finished site in a week.", "process.lead": "No weeks of emails with PDFs. You see a real page from day three.",
+  "p1.h": "A short call", "p1.p": "20 minutes: what you do, for whom, and one or two sites you like.", "p1.w": "Day 1",
+  "p2.h": "Clickable design", "p2.p": "A real page on your phone, not a picture. With your texts and prices.", "p2.w": "In 2–3 days",
+  "p3.h": "Edits right on the page", "p3.p": "Change fonts and colors, leave a note on anything. I put it in.", "p3.w": "2–3 rounds",
+  "p4.h": "Launch on your domain", "p4.p": "The site runs with SSL, the form sends requests straight to you.", "p4.w": "About a week",
+  "p5.h": "If you like: edit it yourself", "p5.p": "Three lessons with AI and you change texts, prices and photos without a developer.", "p5.w": "Business + AI",
+  "pricing.h2": "Fixed price. No monthly fees to me.", "pricing.lead": "Choose a package by how much you want handled. I confirm the price after our first call and it doesn't change.",
+  "plan1.price": "from 5,900 CZK", "plan1.for": "One page that sells. To get started or replace an old site.",
+  "plan1.list": "<li>Landing page in one design direction</li><li>Your texts polished</li><li>Temporary photos until yours arrive</li><li>Contact or booking form</li><li>Launch on your domain with SSL, basic SEO</li><li>2 rounds of edits</li>", "plan1.cta": "I want Start",
+  "plan2.flag": "Recommended", "plan2.price": "from 12,900 CZK", "plan2.for": "For a business that wants to choose its look and take bookings or payments online.",
+  "plan2.list": "<li>Everything in Start</li><li>2–3 design directions to choose from</li><li>Two languages</li><li>Bookings or payments: Reservio, Calendly, Stripe…</li><li>Visitor analytics</li><li>3 rounds of edits</li>", "plan2.cta": "I want Business",
+  "plan3.price": "from 18,900 CZK", "plan3.for": "Business, plus you learn to handle the site and everyday work with AI.",
+  "plan3.list": "<li>Everything in Business</li><li>3 one-on-one sessions, online or in Prague</li><li>Edit your site yourself with Claude Code</li><li>Vibe-coding basics</li><li>AI for everyday tasks in your business</li>", "plan3.cta": "I want Business + AI",
+  "pricing.always": "<strong>Always included:</strong> you own everything. Code in your GitHub, domain and hosting in your name — we set them up together. You pay for support only if you want it.",
+  "pricing.lessons": "<strong>AI lessons only:</strong> one-on-one, online or in person in Prague, even without a site from me. I'll send the price per session based on what you want to learn. <a class=\"link\" href=\"#request\" data-prefill=\"package=lessons\">Ask about lessons</a>",
+  "inc.h2": "What I need from you, and what's included.", "inc.lead": "Said plainly, so nothing surprises you.",
+  "inc.need": "What I need from you", "inc.needList": "<li>Services, prices and opening hours</li><li>Your logo, if you have one</li><li>Your photos — until then I use temporary ones</li><li>One or two sites you like</li><li>Access to your domain, or we buy one together</li>",
+  "inc.yes": "Included", "inc.yesList": "<li>Custom design and build, no template</li><li>Your texts polished</li><li>Fast mobile site, basic SEO</li><li>A form that actually delivers requests</li><li>Launch on your domain with SSL</li>",
+  "inc.no": "Not included", "inc.noList": "<li>Domain and hosting fees (hosting is often free)</li><li>Professional photo shoot — happy to recommend a photographer</li><li>Copywriting beyond polishing</li>",
+  "about.h2": "Hi, I'm Viktar.", "about.p1": "Full-stack and product engineer. For years I've built web products and AI agent systems. Now I bring the same quality to small businesses: a fast mobile site, clean code and forms that deliver.",
+  "about.p2": "I work alone, so you talk directly to the person building your site. No agency in between, and no agency markup.",
+  "les.h2": "Learn to edit your site yourself. With AI.", "les.lead": "Three one-on-one sessions, online or in Prague. Afterwards you can:",
+  "les.list": "<li>Change a text, price or photo on your site yourself, with Claude Code</li><li>Give AI a task and check what it did</li><li>Write customer replies, offers and posts with AI</li><li>Tell when to trust AI and when not to</li>", "les.cta": "I want the site and lessons",
+  "faq.h2": "What people ask most.",
+  "q1": "What do the domain and hosting cost?", "a1": "You pay the domain to the registrar, usually a few hundred crowns a year. Hosting for a landing page is often on a free plan. Both are in your name; I just set them up.",
+  "q2": "Who owns the code?", "a2": "You do. The code is in your GitHub, the domain and hosting on your account. You can move to another developer any time.",
+  "q3": "What if I want to change something later?", "a3": "Small things you can change yourself — Business + AI teaches you how. Or message me and we agree the price of the change upfront.",
+  "q4": "How fast will it be done?", "a4": "You get a clickable design 2–3 days after our call. The site is online about a week after I have your texts and photos.",
+  "q5": "How do I pay?", "a5": "By bank transfer against an invoice. I send the payment terms together with the confirmed price, before we start.",
+  "q6": "What language do we speak?", "a6": "Czech, English or Russian — whatever suits you. The site can be in two languages (Business package).",
+  "q7": "Will you write my texts?", "a7": "I polish, shorten and order your texts so they sell. Writing everything from scratch isn't included.",
+  "q8": "I don't have good photos. Is that a problem?", "a8": "No. Until then I use temporary illustrative photos, and we swap them for yours. Happy to recommend a photographer.",
+  "req.h2": "Send a request.", "req.lead": "I reply within 1 working day. A few lines about your business are enough — or just message me.",
+  "f.biz": "Your business and what it does", "f.link": "Your site or Instagram", "f.opt": "optional", "f.like": "Sites you like", "f.pkg": "Package", "f.pkg0": "Not sure yet", "f.pkg4": "AI lessons only",
+  "f.name": "Name", "f.via": "Where should I reply", "f.phone": "Phone", "f.contact": "Number, username or email", "f.lang": "Language",
+  "f.consent": "I agree to my details being processed so you can reply. <a href=\"#privacy\">Privacy policy</a>", "f.next": "Continue", "f.back": "Back", "f.send": "Send request",
+  "f.okH": "Thanks, I've got your request.", "f.okP": "I'll reply within 1 working day where you chose. Meanwhile, click through the examples above.",
+  "foot.p": "Landing pages for small businesses. Prague and online.", "foot.privacy": "Privacy policy",
+  "_progress": "Step {n} of {total}", "_title": "Vitrina — a website for your business, online within a week"
+},
+ru: {
+  "nav.work": "Работы", "nav.pricing": "Цены", "nav.process": "Как это работает", "nav.faq": "Вопросы", "nav.looks": "Три образа",
+  "cta.request": "Отправить заявку", "cta.wa": "Написать в WhatsApp", "fab": "Напишите мне",
+  "hero.h1": "Сайт для вашего бизнеса&nbsp;— онлайн за&nbsp;неделю.",
+  "hero.lead": "Спроектирую и запущу лендинг для вашего бизнеса — чем бы вы ни занимались. Код и домен — ваши.",
+  "hero.assure": "Отвечу в течение 1 рабочего дня — по-русски, по-чешски или по-английски.",
+  "hero.price": "от 5 900 Kč", "hero.priceNote": "фиксированная цена за готовый сайт",
+  "hero.f1a": "Кликабельный дизайн", "hero.f1b": "за 2–3 дня", "hero.f2a": "Сайт онлайн", "hero.f2b": "примерно за неделю", "hero.f3a": "Абонплата мне", "hero.f3b": "нет",
+  "work.h2": "Примеры, которые можно прокликать.", "work.lead": "Четыре концепта для типичного пражского бизнеса. Каждый — живой сайт: откройте его в телефоне и попробуйте записаться.",
+  "work.concept": "Концепт", "work.open": "Открыть живое демо",
+  "work.brows": "Студия бровей. Спокойный beauty-стиль, слайдер до/после, цена сразу наверху.",
+  "work.delivery": "Аренда скутеров для курьеров. Тёмный постер, недельная цена и калькулятор.",
+  "work.kinder": "Частный детский сад в Праге 6. Детские рисунки и солнце, которое идёт по небу.",
+  "work.sauna": "Приватный спа, открыт 24/7. Тёплая ночная атмосфера и бронь слота.",
+  "looks.h2": "Один бизнес, три образа.", "looks.lead": "Тот же контент, другой характер. Выберите направление и посмотрите, как меняется кафе.",
+  "looks.a": "Тёмный постер", "looks.b": "Спокойный журнал", "looks.c": "Игривый", "looks.try": "Попробовать правки", "try.fab": "Попробуйте править этот сайт", "try.on": "Правки применены · открыть",
+  "looks.caption": "Так мы вместе выбираем ваш стиль. Вы получаете кликабельный дизайн, выбираете направление и оставляете заметки прямо на странице — к шрифту, цвету или отдельной кнопке.",
+  "demo.n1": "Меню", "demo.n2": "Завтраки", "demo.n3": "Как нас найти", "demo.btn": "Забронировать стол", "demo.h": "Кофе и круассаны на углу Летны.",
+  "demo.price": "Завтраки от 145 Kč.", "demo.sub": "Печём каждое утро, открыто ежедневно с 7:30.", "demo.menu": "Всё меню",
+  "process.h2": "От звонка до готового сайта за неделю.", "process.lead": "Никаких недель переписки с PDF. Настоящую страницу вы видите уже на третий день.",
+  "p1.h": "Короткий звонок", "p1.p": "20 минут: чем вы занимаетесь, для кого, и один-два сайта, которые вам нравятся.", "p1.w": "День 1",
+  "p2.h": "Кликабельный дизайн", "p2.p": "Настоящая страница в вашем телефоне, а не картинка. С вашими текстами и ценами.", "p2.w": "За 2–3 дня",
+  "p3.h": "Правки прямо на странице", "p3.p": "Меняете шрифты и цвета, оставляете заметку к чему угодно. Я вношу.", "p3.w": "2–3 круга",
+  "p4.h": "Запуск на вашем домене", "p4.p": "Сайт работает с SSL, форма отправляет заявки прямо вам.", "p4.w": "Примерно за неделю",
+  "p5.h": "По желанию: правьте сами", "p5.p": "Три урока с ИИ — и тексты, цены и фото вы меняете без программиста.", "p5.w": "Business + AI",
+  "pricing.h2": "Фиксированная цена. Без абонплаты мне.", "pricing.lead": "Выберите пакет по тому, сколько хотите отдать мне. Цену подтверждаю после первого звонка, и она не меняется.",
+  "plan1.price": "от 5 900 Kč", "plan1.for": "Одна страница, которая продаёт. Для старта или замены старого сайта.",
+  "plan1.list": "<li>Лендинг в одном направлении дизайна</li><li>Шлифовка ваших текстов</li><li>Временные фото, пока нет ваших</li><li>Форма заявки или записи</li><li>Запуск на вашем домене с SSL, базовое SEO</li><li>2 круга правок</li>", "plan1.cta": "Хочу Start",
+  "plan2.flag": "Рекомендую", "plan2.price": "от 12 900 Kč", "plan2.for": "Для бизнеса, который хочет выбрать стиль и принимать записи или оплату онлайн.",
+  "plan2.list": "<li>Всё из Start</li><li>2–3 направления дизайна на выбор</li><li>Два языка</li><li>Запись или оплата: Reservio, Calendly, Stripe…</li><li>Аналитика посещений</li><li>3 круга правок</li>", "plan2.cta": "Хочу Business",
+  "plan3.price": "от 18 900 Kč", "plan3.for": "Business, и вдобавок вы научитесь вести сайт и ежедневные задачи с ИИ.",
+  "plan3.list": "<li>Всё из Business</li><li>3 урока 1:1, онлайн или в Праге</li><li>Правки сайта самостоятельно с Claude Code</li><li>Основы вайб-кодинга</li><li>ИИ для повседневных задач бизнеса</li>", "plan3.cta": "Хочу Business + AI",
+  "pricing.always": "<strong>Всегда входит:</strong> всё принадлежит вам. Код в вашем GitHub, домен и хостинг на ваше имя — настроим вместе. Поддержку оплачиваете, только если она нужна.",
+  "pricing.lessons": "<strong>Только уроки ИИ:</strong> 1:1 онлайн или лично в Праге, даже без сайта от меня. Цену урока пришлю, когда пойму, чему вы хотите научиться. <a class=\"link\" href=\"#request\" data-prefill=\"package=lessons\">Спросить про уроки</a>",
+  "inc.h2": "Что нужно от вас и что входит в цену.", "inc.lead": "Говорю прямо, чтобы ничего не удивило.",
+  "inc.need": "Что нужно от вас", "inc.needList": "<li>Услуги, цены и часы работы</li><li>Логотип, если он есть</li><li>Ваши фото — до тех пор поставлю временные</li><li>Один-два сайта, которые вам нравятся</li><li>Доступ к домену, или купим его вместе</li>",
+  "inc.yes": "Входит", "inc.yesList": "<li>Дизайн и разработка под вас, без шаблона</li><li>Шлифовка ваших текстов</li><li>Быстрый мобильный сайт, базовое SEO</li><li>Форма, которая действительно доставляет заявки</li><li>Запуск на вашем домене с SSL</li>",
+  "inc.no": "Не входит", "inc.noList": "<li>Оплата домена и хостинга (хостинг часто бесплатный)</li><li>Профессиональная фотосъёмка — порекомендую фотографа</li><li>Написание текстов сверх шлифовки</li>",
+  "about.h2": "Привет, я Виктар.", "about.p1": "Full-stack и продуктовый инженер. Годами строю веб-продукты и системы с ИИ-агентами. Теперь даю то же качество малому бизнесу: быстрый мобильный сайт, чистый код и формы, которые доставляют заявки.",
+  "about.p2": "Я работаю один, поэтому вы говорите напрямую с тем, кто делает ваш сайт. Без агентства посередине и без его наценки.",
+  "les.h2": "Научитесь править сайт сами. С ИИ.", "les.lead": "Три урока 1:1, онлайн или в Праге. После них вы умеете:",
+  "les.list": "<li>Сами менять текст, цену или фото на сайте с Claude Code</li><li>Ставить ИИ задачу и проверять результат</li><li>Писать с ИИ ответы клиентам, предложения и посты</li><li>Понимать, когда ИИ доверять, а когда нет</li>", "les.cta": "Хочу сайт и уроки",
+  "faq.h2": "О чём спрашивают чаще всего.",
+  "q1": "Сколько стоят домен и хостинг?", "a1": "Домен оплачиваете регистратору, обычно несколько сотен крон в год. Хостинг для лендинга часто на бесплатном тарифе. Всё на ваше имя, я только настраиваю.",
+  "q2": "Кому принадлежит код?", "a2": "Вам. Код в вашем GitHub, домен и хостинг на вашем аккаунте. Можно в любой момент перейти к другому разработчику.",
+  "q3": "А если позже захочу что-то поменять?", "a3": "Мелочи можно менять самим — этому учит пакет Business + AI. Или напишите мне, и мы заранее договоримся о цене правки.",
+  "q4": "Как быстро будет готово?", "a4": "Кликабельный дизайн — через 2–3 дня после звонка. Сайт онлайн примерно через неделю после того, как у меня есть тексты и фото.",
+  "q5": "Как оплачивать?", "a5": "Банковским переводом по счёту. Условия оплаты пришлю вместе с подтверждённой ценой, до начала работы.",
+  "q6": "На каком языке общаемся?", "a6": "По-русски, по-чешски или по-английски — как вам удобнее. Сайт может быть на двух языках (пакет Business).",
+  "q7": "Вы напишете мне тексты?", "a7": "Ваши тексты отшлифую, сокращу и выстрою так, чтобы они продавали. Написание с нуля в цену не входит.",
+  "q8": "У меня нет хороших фото. Это проблема?", "a8": "Нет. До тех пор поставлю временные иллюстративные фото, потом заменим на ваши. Могу порекомендовать фотографа.",
+  "req.h2": "Отправьте заявку.", "req.lead": "Отвечу за 1 рабочий день. Достаточно пары строк о вашем бизнесе — или просто напишите мне.",
+  "f.biz": "Бизнес и чем занимаетесь", "f.link": "Ваш сайт или Instagram", "f.opt": "необязательно", "f.like": "Сайты, которые вам нравятся", "f.pkg": "Пакет", "f.pkg0": "Пока не знаю", "f.pkg4": "Только уроки ИИ",
+  "f.name": "Имя", "f.via": "Куда вам ответить", "f.phone": "Телефон", "f.contact": "Номер, ник или e-mail", "f.lang": "Язык",
+  "f.consent": "Согласен на обработку данных, чтобы вы могли ответить. <a href=\"#privacy\">Политика конфиденциальности</a>", "f.next": "Дальше", "f.back": "Назад", "f.send": "Отправить заявку",
+  "f.okH": "Спасибо, заявка у меня.", "f.okP": "Отвечу в течение 1 рабочего дня там, где вы выбрали. А пока прокликайте примеры выше.",
+  "foot.p": "Лендинги для малого бизнеса. Прага и онлайн.", "foot.privacy": "Политика конфиденциальности",
+  "_progress": "Шаг {n} из {total}", "_title": "Vitrina — сайт для вашего бизнеса онлайн за неделю"
+}};
+const CS_FIX = { "hero.h1": "Web pro vaši firmu, online do&nbsp;týdne." }; // the hero line-reveal splits this node
+const nodes = [...document.querySelectorAll("[data-i]")];
+nodes.forEach((n) => (n.dataset.cs = n.innerHTML));
+const prog = document.querySelector("[data-progress]");
+const base = { _progress: prog.dataset.progress, _title: document.title };
+function setLang(lang) {
+  const dict = I18N[lang] || {};
+  nodes.forEach((n) => { const v = dict[n.dataset.i] ?? (lang === "cs" ? CS_FIX[n.dataset.i] : undefined); n.innerHTML = v ?? n.dataset.cs; });
+  const tpl = dict._progress || base._progress, cur = (prog.textContent.match(/\d+/g) || [1, 2]);
+  prog.dataset.progress = tpl; prog.textContent = tpl.replace("{n}", cur[0]).replace("{total}", cur[1]);
+  document.title = dict._title || base._title;
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  try { localStorage.setItem("vitrina-lang", lang); } catch {}
+}
+document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+const f=document.querySelector('.fab'),h=document.querySelector('[data-hero]'); if(f&&h&&'IntersectionObserver' in window){new IntersectionObserver(([e])=>f.classList.toggle('is-visible',!e.isIntersecting)).observe(h);} else if(f){f.classList.add('is-visible');}
+const saved = (() => { try { return localStorage.getItem("vitrina-lang"); } catch { return null; } })();
+const urlLang = new URLSearchParams(location.search).get("lang");
+if (urlLang || (saved && saved !== "cs")) setLang(urlLang || saved);
+</script>
+</body>
+</html>

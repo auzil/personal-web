@@ -1,0 +1,104 @@
+/*
+  Prototype kit — structure and behavior only, no visual style.
+  The look comes from the variant's own :root tokens and CSS. See README.md.
+*/
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility; }
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+img, video, svg { display: block; max-width: 100%; }
+img, video { height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl, dd { margin: 0; }
+ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+a { color: inherit; }
+[id] { scroll-margin-top: var(--header-h, 5rem); }
+
+/* ---------- type: role classes driven by tokens ----------
+   Every step reads its token and a scale knob the edit panel can change. */
+:root {
+  --display-scale: 1;
+  --heading-scale: 1;
+  --body-scale: 1;
+}
+body {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: calc(var(--text-body, 1.0625rem) * var(--body-scale));
+  line-height: var(--text-body--line-height, 1.5);
+}
+.t-display, .t-h2, .t-h3 { font-family: var(--font-display, var(--font-sans, inherit)); text-wrap: balance; }
+.t-display {
+  font-size: calc(var(--text-display, 4rem) * var(--display-scale));
+  line-height: var(--text-display--line-height, 0.95);
+  letter-spacing: var(--text-display--letter-spacing, -0.02em);
+  font-weight: var(--text-display--font-weight, 700);
+}
+.t-h2 {
+  font-size: calc(var(--text-h2, 2.5rem) * var(--heading-scale));
+  line-height: var(--text-h2--line-height, 1);
+  letter-spacing: var(--text-h2--letter-spacing, -0.02em);
+  font-weight: var(--text-h2--font-weight, 700);
+}
+.t-h3 {
+  font-size: calc(var(--text-h3, 1.5rem) * var(--heading-scale));
+  line-height: var(--text-h3--line-height, 1.1);
+  letter-spacing: var(--text-h3--letter-spacing, -0.01em);
+  font-weight: var(--text-h3--font-weight, 700);
+}
+.t-body-lg { font-size: calc(var(--text-body-lg, 1.25rem) * var(--body-scale)); line-height: var(--text-body-lg--line-height, 1.45); }
+.t-ui { font-size: var(--text-ui, 1rem); line-height: 1; font-weight: var(--text-ui--font-weight, 600); }
+.t-fine { font-size: var(--text-fine, 0.875rem); line-height: 1.4; }
+.tabular { font-variant-numeric: tabular-nums; }
+p, li { text-wrap: pretty; }
+
+/* ---------- utilities ---------- */
+.k-container { width: min(100% - 2 * var(--gutter, 1rem), var(--container-page, 90rem)); margin-inline: auto; }
+.k-measure { max-width: var(--container-content, 40rem); }
+.k-sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.k-skip { position: absolute; left: 1rem; top: -10rem; z-index: 100; }
+.k-skip:focus { top: 1rem; }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+/* ---------- motion: initial states only when JS says motion is allowed ---------- */
+.kit-motion [data-reveal="lines"]:not(.is-split) { visibility: hidden; }
+.kit-motion [data-reveal="fade"]:not(.is-in) { opacity: 0; transform: translateY(0.75rem); }
+.kit-motion [data-reveal="photo"]:not(.is-in) { clip-path: inset(100% 0 0 0); }
+[data-reveal="fade"], [data-reveal="photo"] {
+  transition: opacity .8s var(--ease-out-expo, cubic-bezier(.16,1,.3,1)), transform .8s var(--ease-out-expo, cubic-bezier(.16,1,.3,1)), clip-path 1s var(--ease-out-expo, cubic-bezier(.16,1,.3,1));
+}
+
+/* ---------- ticker ---------- */
+[data-ticker] { overflow: hidden; white-space: nowrap; }
+[data-ticker] > .k-ticker-track { display: inline-flex; gap: var(--ticker-gap, 3rem); padding-right: var(--ticker-gap, 3rem); animation: k-ticker var(--ticker-speed, 40s) linear infinite; }
+[data-ticker]:hover > .k-ticker-track, [data-ticker]:focus-within > .k-ticker-track { animation-play-state: paused; }
+@keyframes k-ticker { to { transform: translateX(-50%); } }
+
+/* ---------- full-screen menu ---------- */
+[data-menu] { position: fixed; inset: 0; z-index: 60; overflow: auto; }
+[data-menu][hidden] { display: none; }
+.kit-motion [data-menu].is-opening { animation: k-wipe .5s var(--ease-in-out-power, cubic-bezier(.65,0,.35,1)) both; }
+@keyframes k-wipe { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+html.k-locked { overflow: hidden; }
+
+/* ---------- multi-step form ---------- */
+form[data-steps] [data-step]:not(.is-active) { display: none; }
+form[data-steps] [data-success][hidden] { display: none; }
+
+/* ---------- sticky mobile CTA ---------- */
+[data-sticky-cta] { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; transform: translateY(110%); transition: transform .35s ease; }
+[data-sticky-cta].is-visible { transform: none; }
+@media (min-width: 64rem) { [data-sticky-cta][data-mobile-only] { display: none; } }
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  [data-ticker] > .k-ticker-track { animation: none; }
+}
+
+/* ---------- edit panel helpers (only active while editing) ---------- */
+.kit-editing [contenteditable="true"]:hover,
+.kit-editing [contenteditable="true"]:focus { outline: 1px dashed #3b5bdb; outline-offset: 2px; cursor: text; }
