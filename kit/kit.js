@@ -11,6 +11,10 @@
     data-count-to="1490" [data-locale] [data-currency]  counts up when visible
     Kit.animateNumber(el, value, {locale, currency, duration})  for calculators
 
+  Line reveals: data-reveal="lines" splits once the headline's own font is loaded and never reverts, so the line
+    breaks stay as animated. Kit.resplit(el) after replacing el.innerHTML (language switch); Kit.unsplitAll() /
+    Kit.splitAll() for anything that needs plain DOM (the edit panel's Text mode does this).
+
   Edit panel: open with Shift+E, or add #edit to the URL. Disabled by <html data-kit-panel="off">.
     <html data-kit-panel="client"> is the visitor version: no shortcuts (open it from a [data-try-edit] button via
     Kit.openPanel()), and "Copy my changes" produces a plain message — no /revise, no tool names.
@@ -48,6 +52,7 @@
       observeOnce(el, () => el.classList.add("is-in"));
     });
 
+    Kit.unsplitAll = Kit.splitAll = Kit.resplit = () => {}; // real versions below; no-ops without motion / SplitText
     const lines = [...document.querySelectorAll('[data-reveal="lines"]')];
     if (!lines.length) return;
     const gsap = window.gsap;
@@ -56,30 +61,68 @@
     setTimeout(fallback, 3000); // never leave text hidden
     if (reduceMotion || !gsap || !Split) return fallback();
     try { gsap.registerPlugin(Split); } catch { /* already registered */ }
-    (document.fonts?.ready ?? Promise.resolve()).then(() => {
-      lines.forEach((el) => {
-        if (el.classList.contains("is-split")) return;
-        const onLoad = el.hasAttribute("data-reveal-load");
-        const opts = { type: "lines", mask: "lines" };
-        const split = typeof Split.create === "function" ? Split.create(el, opts) : new Split(el, opts);
-        // SplitText masks are exactly one line-box tall (overflow: clip). With tight display
-        // line-heights, descenders (g y p q j) and diacritics (Č Ř Ů Ö) stick out of the line box,
-        // get clipped during the animation and then pop in when the split is reverted. Clip with a
-        // clip-path that extends past the box instead: same mask effect, room for glyphs, no layout change.
-        (split.masks || []).forEach((m) => {
-          m.style.overflow = "visible";
-          m.style.clipPath = "inset(-0.25em -0.1em -0.35em -0.1em)";
-        });
-        el.classList.add("is-split");
-        const tween = gsap.from(split.lines, {
-          // start each line fully below its (extended) mask: line height + bottom room + top overhang
-          y: (i, line) => line.offsetHeight + parseFloat(getComputedStyle(line).fontSize) * 0.65,
-          duration: 0.9, ease: "expo.out", stagger: 0.08, paused: !onLoad,
-          onComplete: () => split.revert(), // restore plain DOM so the text stays editable
-        });
-        if (!onLoad) observeOnce(el, () => tween.play());
+
+    // One instance per headline: { el, onLoad, split, tween }. The split is never reverted when the animation
+    // ends: reverting re-wraps the plain text, and its line breaks can differ from the ones that were animated.
+    // autoSplit re-splits (keeping the animation's progress) if the font arrives late or the viewport resizes.
+    const instances = (Kit._reveals = []);
+    function build(inst, animate) {
+      const { el, onLoad } = inst;
+      const opts = {
+        type: "lines", mask: "lines", autoSplit: true,
+        onSplit(self) {
+          // SplitText masks are exactly one line-box tall (overflow: clip). With tight display line-heights,
+          // descenders (g y p q j) and diacritics (Č Ř Ů Ö) stick out of the line box and get clipped. Clip with a
+          // clip-path that extends past the box instead: same mask effect, room for glyphs, no layout change.
+          (self.masks || []).forEach((m) => {
+            m.style.overflow = "visible";
+            m.style.clipPath = "inset(-0.25em -0.1em -0.35em -0.1em)";
+          });
+          el.classList.add("is-split");
+          if (!animate) return; // final state, no animation
+          const fresh = !inst.tween; // first split of this headline; later ones keep the progress (autoSplit)
+          inst.tween = gsap.from(self.lines, {
+            // start each line fully below its (extended) mask: line height + bottom room + top overhang
+            y: (i, line) => line.offsetHeight + parseFloat(getComputedStyle(line).fontSize) * 0.65,
+            duration: 0.9, ease: "expo.out", stagger: 0.08, paused: fresh && !onLoad,
+          });
+          return inst.tween;
+        },
+      };
+      inst.split = el._kitSplit = typeof Split.create === "function" ? Split.create(el, opts) : new Split(el, opts);
+    }
+    // wait for the headline's own font (document.fonts.ready resolves at once when nothing has asked for it yet)
+    const fontReady = (el) => {
+      if (!document.fonts?.load) return Promise.resolve();
+      const cs = getComputedStyle(el);
+      const font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      return Promise.race([document.fonts.load(font, el.textContent), new Promise((r) => setTimeout(r, 2500))]).catch(() => {});
+    };
+    lines.forEach((el) => {
+      const inst = { el, onLoad: el.hasAttribute("data-reveal-load"), split: null, tween: null };
+      instances.push(inst);
+      fontReady(el).then(() => {
+        if (inst.split || inst.skipped) return;
+        build(inst, true);
+        if (!inst.onLoad) observeOnce(el, () => inst.tween?.play());
       });
     });
+
+    // For the edit panel (contenteditable needs plain DOM) and for code that replaces a node's innerHTML.
+    const unsplit = (inst) => { inst.tween?.revert?.(); inst.tween = null; inst.split?.revert(); inst.split = null; inst.el._kitSplit = null; };
+    Kit.unsplitAll = () => instances.forEach((inst) => { if (inst.split) unsplit(inst); else inst.skipped = true; });
+    Kit.splitAll = () => instances.forEach((inst) => { inst.skipped = false; if (!inst.split) build(inst, false); });
+    Kit.resplit = (el) => {
+      const inst = instances.find((x) => x.el === el);
+      if (!inst) return;
+      // if the page replaced el.innerHTML, the old lines are detached and revert() would put the OLD text back
+      const replaced = inst.split && !inst.split.lines.some((l) => el.contains(l));
+      const html = el.innerHTML;
+      if (inst.split) unsplit(inst);
+      if (replaced) el.innerHTML = html;
+      inst.skipped = false;
+      build(inst, false);
+    };
   }
 
   /* ---------------- ticker ---------------- */
@@ -529,6 +572,8 @@
       state.editing = on;
       if (on) { setPinning(false); }
       root.classList.toggle("kit-editing", on);
+      if (on) Kit.unsplitAll?.(); // contenteditable edits plain DOM
+      else Kit.splitAll?.(); // back to the final state, no animation
       editables().forEach((el) => {
         if (on) { el.setAttribute("contenteditable", "true"); el.spellcheck = false; }
         else el.removeAttribute("contenteditable");

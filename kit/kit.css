@@ -64,7 +64,8 @@ p, li { text-wrap: pretty; }
 :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 
 /* ---------- motion: initial states only when JS says motion is allowed ---------- */
-.kit-motion [data-reveal="lines"]:not(.is-split) { visibility: hidden; }
+.kit-motion [data-reveal="lines"]:not(.is-split) { visibility: hidden; } /* kit.js adds .is-split after the split, or after 3 s at the latest — text is never left hidden */
+[data-reveal="lines"] .line { display: block; } /* explicit lines: <span class="line">…</span> */
 .kit-motion [data-reveal="fade"]:not(.is-in) { opacity: 0; transform: translateY(0.75rem); }
 .kit-motion [data-reveal="photo"]:not(.is-in) { clip-path: inset(100% 0 0 0); }
 [data-reveal="fade"], [data-reveal="photo"] {

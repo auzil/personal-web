@@ -7,7 +7,7 @@
 <meta name="description" content="Navrhnu a spustím landing page pro malou firmu v Praze. Od 5 900 Kč, návrh na kliknutí za 2–3 dny.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&family=Golos+Text:wght@400;500;600&family=Oswald:wght@500;700&family=Lora:ital,wght@0,500;1,500&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400..700&family=Golos+Text:wght@400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="kit/kit.css">
 <style>
 :root {
@@ -117,7 +117,7 @@ a { text-decoration-thickness: 1px; text-underline-offset: .2em; }
 
 /* ---------- hero ---------- */
 .hero { padding-top: clamp(1.5rem, 5vw, 4.5rem); overflow: hidden; }
-.hero h1 { max-width: 14ch; }
+.hero h1 { max-width: 70rem; } /* lines are explicit; rem, not ch (ch changes when the font swaps) */
 .hero__row {
   display: grid; gap: var(--space-block); margin-top: clamp(1.5rem, 3.5vw, 3.25rem);
   grid-template-columns: minmax(0, 1fr);
@@ -444,7 +444,7 @@ body:has([data-sticky-cta].is-visible) .try-fab { bottom: calc(5rem + env(safe-a
 <main id="main">
 <section id="hero" data-section="hero" class="hero" data-hero>
   <div class="k-container">
-    <h1 class="t-display" data-reveal="lines" data-reveal-load data-i="hero.h1">Web pro vaši firmu, online do&nbsp;týdne.</h1>
+    <h1 class="t-display" data-reveal="lines" data-reveal-load data-i="hero.h1"><span class="line">Web pro</span> <span class="line">vaši firmu,</span> <span class="line">online do&nbsp;týdne.</span></h1>
     <div class="hero__row">
       <div class="hero__lead-wrap">
         <p class="hero__lead t-body-lg" data-i="hero.lead">Navrhnu a spustím landing page pro váš byznys — ať děláte cokoli. Kód i doména patří vám.</p>
@@ -852,7 +852,7 @@ const I18N = {
 en: {
   "nav.work": "Work", "nav.pricing": "Pricing", "nav.process": "How it works", "nav.faq": "FAQ", "nav.looks": "Three looks",
   "cta.request": "Send a request", "cta.wa": "Message on WhatsApp", "fab": "Message me",
-  "hero.h1": "A website for your business, online within a&nbsp;week.",
+  "hero.h1": "<span class='line'>A website for</span> <span class='line'>your business,</span> <span class='line'>online within</span> <span class='line'>a&nbsp;week.</span>",
   "hero.lead": "I design and launch a landing page for your business, whatever it does. The code and the domain are yours.",
   "hero.assure": "I reply within 1 working day — in English, Czech or Russian.",
   "hero.price": "from 5,900 CZK", "hero.priceNote": "fixed price for a finished site",
@@ -911,7 +911,7 @@ en: {
 ru: {
   "nav.work": "Работы", "nav.pricing": "Цены", "nav.process": "Как это работает", "nav.faq": "Вопросы", "nav.looks": "Три образа",
   "cta.request": "Отправить заявку", "cta.wa": "Написать в WhatsApp", "fab": "Напишите мне",
-  "hero.h1": "Сайт для вашего бизнеса&nbsp;— онлайн за&nbsp;неделю.",
+  "hero.h1": "<span class='line'>Сайт для</span> <span class='line'>вашего бизнеса</span> <span class='line'>онлайн</span> <span class='line'>за&nbsp;неделю.</span>",
   "hero.lead": "Спроектирую и запущу лендинг для вашего бизнеса — чем бы вы ни занимались. Код и домен — ваши.",
   "hero.assure": "Отвечу в течение 1 рабочего дня — по-русски, по-чешски или по-английски.",
   "hero.price": "от 5 900 Kč", "hero.priceNote": "фиксированная цена за готовый сайт",
@@ -967,14 +967,17 @@ ru: {
   "foot.p": "Лендинги для малого бизнеса. Прага и онлайн.", "foot.privacy": "Политика конфиденциальности",
   "_progress": "Шаг {n} из {total}", "_title": "Vitrina — сайт для вашего бизнеса онлайн за неделю"
 }};
-const CS_FIX = { "hero.h1": "Web pro vaši firmu, online do&nbsp;týdne." }; // the hero line-reveal splits this node
+const CS_FIX = { "hero.h1": "<span class='line'>Web pro</span> <span class='line'>vaši firmu,</span> <span class='line'>online do&nbsp;týdne.</span>" }; // the hero line-reveal splits this node
 const nodes = [...document.querySelectorAll("[data-i]")];
 nodes.forEach((n) => (n.dataset.cs = n.innerHTML));
 const prog = document.querySelector("[data-progress]");
 const base = { _progress: prog.dataset.progress, _title: document.title };
 function setLang(lang) {
   const dict = I18N[lang] || {};
-  nodes.forEach((n) => { const v = dict[n.dataset.i] ?? (lang === "cs" ? CS_FIX[n.dataset.i] : undefined); n.innerHTML = v ?? n.dataset.cs; });
+  nodes.forEach((n) => {
+    const v = dict[n.dataset.i] ?? (lang === "cs" ? CS_FIX[n.dataset.i] : undefined); n.innerHTML = v ?? n.dataset.cs;
+    if (n.dataset.reveal === "lines") window.Kit?.resplit?.(n); // innerHTML replaced the split lines
+  });
   const tpl = dict._progress || base._progress, cur = (prog.textContent.match(/\d+/g) || [1, 2]);
   prog.dataset.progress = tpl; prog.textContent = tpl.replace("{n}", cur[0]).replace("{total}", cur[1]);
   document.title = dict._title || base._title;
@@ -984,6 +987,14 @@ function setLang(lang) {
 }
 document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 const f=document.querySelector('.fab'),h=document.querySelector('[data-hero]'); if(f&&h&&'IntersectionObserver' in window){new IntersectionObserver(([e])=>f.classList.toggle('is-visible',!e.isIntersecting)).observe(h);} else if(f){f.classList.add('is-visible');}
+// the looks demo's three display fonts are not needed in the first viewport: load them when the section is near
+(() => {
+  const load = () => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Lora:ital,wght@0,500;1,500&family=Nunito:wght@700;900&display=swap"; document.head.appendChild(l); };
+  const sec = document.getElementById("looks");
+  if (!sec || !("IntersectionObserver" in window)) return load();
+  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); load(); } }, { rootMargin: "900px 0px" });
+  io.observe(sec);
+})();
 const saved = (() => { try { return localStorage.getItem("vitrina-lang"); } catch { return null; } })();
 const urlLang = new URLSearchParams(location.search).get("lang");
 if (urlLang || (saved && saved !== "cs")) setLang(urlLang || saved);
